@@ -1,0 +1,11 @@
+ConcLog: Concurrent Logging for Haskell
+=======================================
+This allows logging to a single file handle from any number of threads, without any race conditions that result in strings being jumbled together on the output.
+
+Because it would be used in situations where race conditions on IO logging are likely, it incorporates logging with the time of logging.
+
+```haskell
+runLog :: BS.ByteString -> (ConcLog -> IO a) -> IO a
+```
+
+That function takes the file path to log to, and an `IO` action to which to pass the `ConcLog`, which can then be operated on using other functions.
