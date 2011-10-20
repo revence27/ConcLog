@@ -9,3 +9,25 @@ runLog :: BS.ByteString -> (ConcLog -> IO a) -> IO a
 ```
 
 That function takes the file path to log to, and an `IO` action to which to pass the `ConcLog`, which can then be operated on using other functions.
+If you use that above function, you need not open and close the ConcLog yourself. Those functions are called within `runLog`; here: ```haskell
+openConcLog :: BS.ByteString -> IO ConcLog
+```
+and then ```haskell
+closeConcLog :: ConcLog -> IO ()
+```
+
+To send a string to the ConcLog (and it will not be messed up by any other threads doing the same):```haskell
+logString :: ConcLog -> BS.ByteString -> IO ()
+```
+And, of course, all values that have ```haskell
+show :: a -> String``` are allowed in `logValue`:```haskell
+logValue :: Show a => ConcLog -> a -> IO ()
+```
+
+If you already have a handle open (say `stdout` or `stderr`), you can convert it to `ConcLog` with `handleToConc`:```haskell
+handleToConc :: Handle -> IO ConcLog
+```
+
+TODO
+----
+1.  Make this work well with Cabal.
