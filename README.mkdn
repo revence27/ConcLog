@@ -30,7 +30,8 @@ logString :: ConcLog -> BS.ByteString -> IO ()
 And, of course, all values that have
 
 ```haskell
-show :: a -> String```
+show :: a -> String
+```
 
 are allowed in `logValue`:
 
